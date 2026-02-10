@@ -25,6 +25,21 @@ A robust backend service for scheduling meetings with automatic conflict detecti
 ✅ Request Logging  
 ✅ Rate Limiting
 
+## Project Structure
+
+```
+src/
+├── config/         # Database and app configuration
+├── middlewares/    # Error handling, Auth, Rate limiting
+├── modules/        # Feature modules (User, Meeting)
+│   ├── dto/        # Data Transfer Objects
+│   ├── interface/  # Controllers
+│   ├── model/      # Mongoose Models
+│   ├── routes/     # Express Routes
+│   └── service/    # Business Logic
+└── utils/          # Logger, Async wrapper
+```
+
 ## Setup Instructions
 
 ### 1. Install Dependencies
