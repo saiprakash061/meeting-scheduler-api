@@ -1,112 +1,80 @@
-# Meeting Scheduler API
+# 📅 Meeting Scheduler API
 
-A robust backend service for scheduling meetings with automatic conflict detection, built with Node.js, Express, and **MongoDB**.
+A professional backend service for managing calendar bookings with **automated conflict detection**. Built with **Node.js**, **Express**, and **MongoDB**.
 
-## Tech Stack
+## 🚀 Key Features
 
-- **Runtime**: Node.js
-- **Framework**: Express.js
-- **Database**: MongoDB
-- **ODM**: Mongoose
-- **Authentication**: JWT (JSON Web Tokens)
-- **Validation**: Custom DTOs
-- **Logging**: Winston
-- **Security**: Helmet, CORS, Rate Limiting
+*   **Conflict Detection Logic**: Prevents overlapping meetings for the same user.
+*   **Modular Architecture**: Clean separation between Controllers, Services, and Models.
+*   **Data Validation**: Strict DTO enforcement for all incoming requests.
+*   **Production Ready**: Includes Rate Limiting, JWT Auth, Soft Deletes, and logging.
+*   **Optimized Database**: Indexed MongoDB queries for fast booking checks.
 
-## Features
+## 🛠️ Tech Stack
 
-✅ User Management (CRUD)  
-✅ Meeting Management (CRUD)  
-✅ **Conflict Detection** (Time overlap prevention)  
-✅ **MongoDB Integration**  
-✅ JWT Authentication  
-✅ Pagination  
-✅ Soft Delete  
-✅ Request Logging  
-✅ Rate Limiting
+*   **Runtime**: Node.js / Express
+*   **Database**: MongoDB / Mongoose
+*   **Security**: JWT, Helmet, Rate Limiter
+*   **Logging**: Winston (Combined & Error logs)
 
-## Project Structure
+## 📁 Required Structure
 
-```
+```text
 src/
-├── config/         # Database and app configuration
-├── middlewares/    # Error handling, Auth, Rate limiting
-├── modules/        # Feature modules (User, Meeting)
-│   ├── dto/        # Data Transfer Objects
-│   ├── interface/  # Controllers
-│   ├── model/      # Mongoose Models
-│   ├── routes/     # Express Routes
-│   └── service/    # Business Logic
-└── utils/          # Logger, Async wrapper
+├── config/         # App & DB Config
+├── middlewares/    # Error/Auth/Limiters
+├── modules/
+│   └── meeting/    # Encapsulated Logic
+│       ├── dto/    # Validation Schemas
+│       ├── index/  # Module Entry
+│       ├── interface/# Controllers
+│       ├── model/  # DB Schemas
+│       └── service/# Business Rules
+└── utils/          # Logger & Helpers
 ```
 
-## Setup Instructions
+## 🚥 Quick Setup
 
-### 1. Install Dependencies
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm install
-```
+2. **Environment Configuration**:
+   Create a `.env` file in the root:
+   ```env
+   PORT=5000
+   MONGODB_URI=mongodb://localhost:27017/meeting_scheduler
+   JWT_SECRET=your_secret_key
+   ```
 
-### 2. Configure Environment
+3. **Start the Service**:
+   ```bash
+   npm run dev
+   ```
 
-Copy `.env.example` to `.env` (or use the existing `.env`):
+## 📡 API Endpoints
 
-```env
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/meeting_scheduler
-JWT_SECRET=your_secret_key_here
-```
+### 👤 Users
+*   `POST /api/users` - Register
+*   `GET /api/users/:id` - Profile
 
-### 3. Run the Server
+### 🗓️ Meetings
+*   `POST /api/meetings` - Book Meeting
+*   `GET /api/meetings` - List (Supports filters: `userId`, `startDate`, `endDate`)
+*   `GET /api/meetings/:id` - Details
+*   `PUT /api/meetings/:id` - Update
+*   `DELETE /api/meetings/:id` - Remove (Soft Delete)
 
-```bash
-# Development
-npm run dev
+### 🔐 Auth
+*   `POST /api/auth/login` - Login
 
-# Production
-npm start
-```
+## 🧠 Business Rule: Conflict Prevention
 
-Server will start on: `http://localhost:5000`
+The core logic validates time slots before saving:
+> **Overlap Condition**: `(Existing Start < New End) AND (Existing End > New Start)`
 
-## Database
+If a collision is detected, the API returns a `400 Bad Request` with details about the conflicting meeting.
 
-This project uses **MongoDB**. You can run it locally or use MongoDB Atlas.
-
-- **Local**: Ensure MongoDB service is running on `localhost:27017`
-- **Atlas**: Update `MONGODB_URI` in `.env` with your connection string
-
-## API Endpoints
-
-### Health Check
-`GET /health`
-
-### User Management
-- `POST /api/users` - Create user
-- `GET /api/users/:id` - Get user by ID
-- `GET /api/users` - Get all users (paginated)
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user
-
-### Meeting Management
-- `POST /api/meetings` - Create meeting
-- `GET /api/meetings/:id` - Get meeting by ID
-- `GET /api/meetings` - List meetings (filters: userId, startDate, endDate, status)
-- `PUT /api/meetings/:id` - Update meeting
-- `DELETE /api/meetings/:id` - Delete meeting
-
-### Authentication
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user profile
-
-## Business Logic: Conflict Detection
-
-The system ensures **no overlapping meetings** for the same user.
-Conflict Formula: `existing.start < new.end AND existing.end > new.start`
-
-If a meeting overlaps with an existing one, the API returns `400 Bad Request`.
-
-## License
-
-MIT
+---
+🚀 *Happy Scheduling!*
