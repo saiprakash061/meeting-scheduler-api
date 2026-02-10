@@ -53,10 +53,20 @@ app.use(errorHandler);
 const startServer = async () => {
     try {
         await connectDB();
-        app.listen(config.port, () => {
+        const server = app.listen(config.port, () => {
             logger.info(`✓ Server is running on port ${config.port}`);
             logger.info(`✓ Environment: ${config.nodeEnv}`);
             logger.info(`✓ Access the API at: http://localhost:${config.port}`);
+        });
+
+        server.on('error', (err) => {
+            if (err.code === 'EADDRINUSE') {
+                logger.error(`✗ Port ${config.port} is already in use.`);
+                logger.error('Please close the other instance or change the PORT in .env file.');
+                process.exit(1);
+            } else {
+                throw err;
+            }
         });
     } catch (error) {
         logger.error(`✗ Failed to start server: ${error.message}`);
