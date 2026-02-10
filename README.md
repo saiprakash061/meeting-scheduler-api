@@ -1,3 +1,6 @@
+## Demo Video
+[Click here to watch the demo](https://drive.google.com/file/d/1bYTVSwSIX1BiRWKoeJTpKVVdu3JgP3w5/view?usp=sharing)
+
 # Meeting Scheduler API
 
 A Node.js backend for scheduling meetings with conflict detection. Built using Express and MongoDB.
@@ -38,6 +41,7 @@ The API checks if a user's new meeting overlaps with an existing one using this 
 `(startTime < existing.endTime) && (endTime > existing.startTime)`
 
 If there's a conflict, it returns a 400 error so the user can't double-book.
+
 
 ---
 Created by [ch.sai prakash]
