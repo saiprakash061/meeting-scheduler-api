@@ -2,9 +2,9 @@ const meetingService = require('../service/meeting.service');
 const { asyncHandler } = require('../../../utils/async.util');
 
 class MeetingController {
-    // POST /meetings - Create a new meeting
+
     createMeeting = asyncHandler(async (req, res) => {
-        // If authenticated, use the authenticated user's ID
+
         const meetingData = {
             ...req.body,
             userId: req.user ? req.user.id : req.body.userId
@@ -19,7 +19,6 @@ class MeetingController {
         });
     });
 
-    // GET /meetings/:id - Get meeting by ID
     getMeeting = asyncHandler(async (req, res) => {
         const meeting = await meetingService.getMeetingById(req.params.id);
 
@@ -29,7 +28,6 @@ class MeetingController {
         });
     });
 
-    // GET /meetings - List all meetings with filters
     listMeetings = asyncHandler(async (req, res) => {
         const { userId, startDate, endDate, status, page = 1, limit = 1 } = req.query;
 
@@ -48,7 +46,6 @@ class MeetingController {
         });
     });
 
-    // PUT /meetings/:id - Update a meeting
     updateMeeting = asyncHandler(async (req, res) => {
         const meeting = await meetingService.updateMeeting(req.params.id, req.body);
 
@@ -59,7 +56,6 @@ class MeetingController {
         });
     });
 
-    // DELETE /meetings/:id - Delete a meeting (soft delete)
     deleteMeeting = asyncHandler(async (req, res) => {
         const result = await meetingService.deleteMeeting(req.params.id);
 
@@ -69,7 +65,6 @@ class MeetingController {
         });
     });
 
-    // GET /users/:userId/meetings - Get all meetings for a specific user
     getUserMeetings = asyncHandler(async (req, res) => {
         const { page = 1, limit = 1 } = req.query;
         const result = await meetingService.getUserMeetings(req.params.userId, page, limit);
@@ -83,3 +78,5 @@ class MeetingController {
 }
 
 module.exports = new MeetingController();
+
+

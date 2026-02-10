@@ -34,8 +34,6 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Hash password before saving
-// Hash password before saving
 userSchema.pre('save', async function () {
     if (!this.isModified('password')) return;
 
@@ -43,12 +41,10 @@ userSchema.pre('save', async function () {
     this.password = await bcrypt.hash(this.password, salt);
 });
 
-// Instance method to compare password
 userSchema.methods.comparePassword = async function (candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Instance method to get safe user data (without password)
 userSchema.methods.toSafeObject = function () {
     const userObject = this.toObject();
     delete userObject.password;
@@ -57,12 +53,10 @@ userSchema.methods.toSafeObject = function () {
     return userObject;
 };
 
-// Query helper for non-deleted users
 userSchema.query.notDeleted = function () {
     return this.where({ deletedAt: null });
 };
 
-// Soft delete method
 userSchema.methods.softDelete = async function () {
     this.deletedAt = new Date();
     return await this.save();
@@ -71,3 +65,5 @@ userSchema.methods.softDelete = async function () {
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+
+

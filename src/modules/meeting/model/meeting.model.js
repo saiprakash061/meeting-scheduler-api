@@ -55,18 +55,15 @@ const meetingSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Indexes for performance and conflict detection
 meetingSchema.index({ userId: 1 });
 meetingSchema.index({ startTime: 1, endTime: 1 });
 meetingSchema.index({ status: 1 });
 meetingSchema.index({ userId: 1, startTime: 1, endTime: 1 });
 
-// Query helper for non-deleted meetings
 meetingSchema.query.notDeleted = function () {
     return this.where({ deletedAt: null });
 };
 
-// Soft delete method
 meetingSchema.methods.softDelete = async function () {
     this.deletedAt = new Date();
     return await this.save();
@@ -75,3 +72,5 @@ meetingSchema.methods.softDelete = async function () {
 const Meeting = mongoose.model('Meeting', meetingSchema);
 
 module.exports = Meeting;
+
+

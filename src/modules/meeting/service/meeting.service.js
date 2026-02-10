@@ -5,12 +5,9 @@ const { AppError } = require('../../../utils/error.util');
 const logger = require('../../../utils/logger.util');
 
 class MeetingService {
-    /**
-     * Check for time conflicts with existing meetings
-     * Conflict condition: existing.start < new.end AND existing.end > new.start
-     */
+
     async checkTimeConflict(userId, startTime, endTime, excludeMeetingId = null) {
-        // Ensure inputs are Date objects
+
         const start = new Date(startTime);
         const end = new Date(endTime);
 
@@ -18,12 +15,11 @@ class MeetingService {
             userId,
             status: { $ne: 'cancelled' },
             deletedAt: null,
-            // Conflict condition: (Existing Start < New End) AND (Existing End > New Start)
+
             startTime: { $lt: end },
             endTime: { $gt: start }
         };
 
-        // Exclude the current meeting when updating
         if (excludeMeetingId) {
             query._id = { $ne: excludeMeetingId };
         }
@@ -49,13 +45,11 @@ class MeetingService {
                 throw new AppError(validation.errors.join(', '), 400);
             }
 
-            // Verify user exists
             const user = await User.findById(createMeetingDTO.userId).notDeleted();
             if (!user) {
                 throw new AppError('User not found', 404);
             }
 
-            // Check for time conflicts
             await this.checkTimeConflict(
                 createMeetingDTO.userId,
                 createMeetingDTO.startTime,
@@ -128,7 +122,6 @@ class MeetingService {
                 query.status = status;
             }
 
-            // Date range filtering
             if (startDate || endDate) {
                 query.startTime = {};
                 if (startDate) {
@@ -192,7 +185,6 @@ class MeetingService {
 
             const dataToUpdate = updateMeetingDTO.getUpdateData();
 
-            // If updating time, check for conflicts
             if (dataToUpdate.startTime || dataToUpdate.endTime) {
                 const newStartTime = dataToUpdate.startTime || meeting.startTime;
                 const newEndTime = dataToUpdate.endTime || meeting.endTime;
@@ -201,11 +193,10 @@ class MeetingService {
                     meeting.userId,
                     newStartTime,
                     newEndTime,
-                    meetingId // Exclude current meeting from conflict check
+                    meetingId 
                 );
             }
 
-            // Update meeting fields
             Object.keys(dataToUpdate).forEach(key => {
                 if (dataToUpdate[key] !== undefined) {
                     meeting[key] = dataToUpdate[key];
@@ -215,7 +206,6 @@ class MeetingService {
             await meeting.save();
             logger.info(`Meeting updated: ${meetingId}`);
 
-            // Fetch updated meeting with user info
             const updatedMeeting = await Meeting.findById(meetingId)
                 .populate('userId', 'name email');
 
@@ -261,7 +251,7 @@ class MeetingService {
 
     async getUserMeetings(userId, page = 1, limit = 1) {
         try {
-            // Verify user exists
+
             const user = await User.findById(userId).notDeleted();
             if (!user) {
                 throw new AppError('User not found', 404);
@@ -279,3 +269,5 @@ class MeetingService {
 }
 
 module.exports = new MeetingService();
+
+

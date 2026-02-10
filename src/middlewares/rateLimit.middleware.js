@@ -10,16 +10,15 @@ const rateLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
-    // Skip successful requests
+
     skipSuccessfulRequests: false,
-    // Skip failed requests
+
     skipFailedRequests: false
 });
 
-// Stricter rate limiting for authentication endpoints
 const authRateLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 5, // 5 requests per window
+    windowMs: 15 * 60 * 1000, 
+    max: 5, 
     message: {
         success: false,
         error: 'Too many login attempts, please try again later'
@@ -32,3 +31,5 @@ module.exports = {
     rateLimiter,
     authRateLimiter
 };
+
+

@@ -28,7 +28,6 @@ class CreateMeetingDTO {
             errors.push('End time is required');
         }
 
-        // Validate time format and logic
         const start = new Date(this.startTime);
         const end = new Date(this.endTime);
 
@@ -117,10 +116,9 @@ class UpdateMeetingDTO {
 
 class MeetingResponseDTO {
     constructor(meeting) {
-        this.id = meeting.id || meeting._id; // Handle both id and _id
-        this._id = meeting._id || meeting.id; // Ensure _id is also present
+        this.id = meeting.id || meeting._id; 
+        this._id = meeting._id || meeting.id; 
 
-        // Handle userId if it's populated (object) or raw (string/ObjectId)
         if (meeting.userId) {
             this.userId = meeting.userId._id || meeting.userId;
         }
@@ -135,11 +133,10 @@ class MeetingResponseDTO {
         this.createdAt = meeting.createdAt;
         this.updatedAt = meeting.updatedAt;
 
-        // Include user info if available
         if (meeting.user) {
             this.user = {
                 id: meeting.user.id || meeting.user._id,
-                _id: meeting.user.id || meeting.user._id, // Add _id here too
+                _id: meeting.user.id || meeting.user._id, 
                 name: meeting.user.name,
                 email: meeting.user.email
             };
@@ -152,3 +149,5 @@ module.exports = {
     UpdateMeetingDTO,
     MeetingResponseDTO
 };
+
+

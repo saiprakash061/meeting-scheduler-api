@@ -1,14 +1,12 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-// MongoDB connection string
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/meeting_scheduler';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb:
 
-// Connect to MongoDB
 const connectDB = async () => {
   try {
     await mongoose.connect(MONGODB_URI, {
-      // Options for MongoDB driver
+
       maxPoolSize: 10,
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
@@ -21,7 +19,6 @@ const connectDB = async () => {
   }
 };
 
-// Handle connection events
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error:', err);
 });
@@ -30,10 +27,11 @@ mongoose.connection.on('disconnected', () => {
   console.log('MongoDB disconnected');
 });
 
-// Graceful shutdown
 process.on('SIGINT', async () => {
   await mongoose.connection.close();
   process.exit(0);
 });
 
 module.exports = { connectDB, mongoose };
+
+

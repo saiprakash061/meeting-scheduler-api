@@ -3,19 +3,17 @@ const { AppError } = require('../utils/error.util');
 
 const authenticate = async (req, res, next) => {
     try {
-        // Get token from header
+
         const authHeader = req.headers.authorization;
 
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
             throw new AppError('No token provided. Access denied', 401);
         }
 
-        const token = authHeader.substring(7); // Remove 'Bearer ' prefix
+        const token = authHeader.substring(7); 
 
-        // Verify token and get user
         const user = await authService.verifyToken(token);
 
-        // Attach user to request object
         req.user = user;
         next();
     } catch (error) {
@@ -23,7 +21,6 @@ const authenticate = async (req, res, next) => {
     }
 };
 
-// Optional authentication - doesn't fail if no token
 const optionalAuthenticate = async (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
@@ -36,7 +33,7 @@ const optionalAuthenticate = async (req, res, next) => {
 
         next();
     } catch (error) {
-        // Continue without authentication
+
         next();
     }
 };
@@ -45,3 +42,5 @@ module.exports = {
     authenticate,
     optionalAuthenticate
 };
+
+

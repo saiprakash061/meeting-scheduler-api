@@ -23,21 +23,18 @@ class AuthService {
                 throw new AppError(validation.errors.join(', '), 400);
             }
 
-            // Find user by email (Mongoose syntax)
             const user = await User.findOne({ email: loginDTO.email }).notDeleted();
 
             if (!user) {
                 throw new AppError('Invalid email or password', 401);
             }
 
-            // Verify password
             const isPasswordValid = await user.comparePassword(loginDTO.password);
 
             if (!isPasswordValid) {
                 throw new AppError('Invalid email or password', 401);
             }
 
-            // Generate JWT token
             const token = this.generateToken(user._id);
 
             logger.info(`User logged in: ${user._id}`);
@@ -56,7 +53,6 @@ class AuthService {
         try {
             const decoded = jwt.verify(token, config.jwt.secret);
 
-            // Mongoose syntax
             const user = await User.findById(decoded.userId).notDeleted();
 
             if (!user) {
@@ -77,3 +73,5 @@ class AuthService {
 }
 
 module.exports = new AuthService();
+
+

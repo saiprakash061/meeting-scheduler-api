@@ -35,8 +35,8 @@ class CreateUserDTO {
 
 class UserResponseDTO {
     constructor(user) {
-        this.id = user.id || user._id; // Handle both id and _id
-        this._id = user._id || user.id; // Ensure _id is also present
+        this.id = user.id || user._id; 
+        this._id = user._id || user.id; 
         this.name = user.name;
         this.email = user.email;
         this.timezone = user.timezone;
@@ -74,3 +74,5 @@ module.exports = {
     UserResponseDTO,
     LoginDTO
 };
+
+

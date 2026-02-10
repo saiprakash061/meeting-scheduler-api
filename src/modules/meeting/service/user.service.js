@@ -13,7 +13,6 @@ class UserService {
                 throw new AppError(validation.errors.join(', '), 400);
             }
 
-            // Check if user already exists
             const existingUser = await User.findOne({ email: createUserDTO.email }).notDeleted();
 
             if (existingUser) {
@@ -89,7 +88,6 @@ class UserService {
                 throw new AppError('User not found', 404);
             }
 
-            // Don't allow email update if it's taken by another user
             if (updateData.email && updateData.email !== user.email) {
                 const existingUser = await User.findOne({
                     email: updateData.email,
@@ -101,7 +99,6 @@ class UserService {
                 }
             }
 
-            // Update user fields
             Object.keys(updateData).forEach(key => {
                 if (updateData[key] !== undefined) {
                     user[key] = updateData[key];
@@ -144,3 +141,5 @@ class UserService {
 }
 
 module.exports = new UserService();
+
+

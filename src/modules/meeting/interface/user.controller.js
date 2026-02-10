@@ -3,7 +3,7 @@ const authService = require('../service/auth.service');
 const { asyncHandler } = require('../../../utils/async.util');
 
 class UserController {
-    // POST /users - Create a new user
+
     createUser = asyncHandler(async (req, res) => {
         const user = await userService.createUser(req.body);
 
@@ -14,7 +14,6 @@ class UserController {
         });
     });
 
-    // GET /users/:id - Get user by ID
     getUser = asyncHandler(async (req, res) => {
         const user = await userService.getUserById(req.params.id);
 
@@ -24,7 +23,6 @@ class UserController {
         });
     });
 
-    // GET /users - Get all users (with pagination)
     getAllUsers = asyncHandler(async (req, res) => {
         const { page = 1, limit = 1 } = req.query;
         const result = await userService.getAllUsers(page, limit);
@@ -36,7 +34,6 @@ class UserController {
         });
     });
 
-    // PUT /users/:id - Update user
     updateUser = asyncHandler(async (req, res) => {
         const user = await userService.updateUser(req.params.id, req.body);
 
@@ -47,7 +44,6 @@ class UserController {
         });
     });
 
-    // DELETE /users/:id - Delete user (soft delete)
     deleteUser = asyncHandler(async (req, res) => {
         const result = await userService.deleteUser(req.params.id);
 
@@ -57,7 +53,6 @@ class UserController {
         });
     });
 
-    // POST /auth/login - User login
     login = asyncHandler(async (req, res) => {
         const result = await authService.login(req.body);
 
@@ -68,7 +63,6 @@ class UserController {
         });
     });
 
-    // GET /auth/me - Get current user profile
     getCurrentUser = asyncHandler(async (req, res) => {
         res.status(200).json({
             success: true,
@@ -78,3 +72,5 @@ class UserController {
 }
 
 module.exports = new UserController();
+
+
