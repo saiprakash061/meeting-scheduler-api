@@ -27,7 +27,7 @@ The project uses a modular design to keep things organized:
 1. Clone the repo and run `npm install`.
 2. Set up your `.env`:
    ```env
-   PORT=5000
+   PORT=5002
    MONGODB_URI=mongodb://localhost:27017/meeting_scheduler
    JWT_SECRET=mysecretkey
    ```
