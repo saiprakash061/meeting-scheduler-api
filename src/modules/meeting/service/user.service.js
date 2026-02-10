@@ -53,7 +53,7 @@ class UserService {
         }
     }
 
-    async getAllUsers(page = 1, limit = 10) {
+    async getAllUsers(page = 1, limit = 1) {
         try {
             const skip = (page - 1) * limit;
 

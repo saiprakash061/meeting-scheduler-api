@@ -31,7 +31,7 @@ class MeetingController {
 
     // GET /meetings - List all meetings with filters
     listMeetings = asyncHandler(async (req, res) => {
-        const { userId, startDate, endDate, status, page = 1, limit = 10 } = req.query;
+        const { userId, startDate, endDate, status, page = 1, limit = 1 } = req.query;
 
         const filters = {};
         if (userId) filters.userId = userId;
@@ -71,7 +71,7 @@ class MeetingController {
 
     // GET /users/:userId/meetings - Get all meetings for a specific user
     getUserMeetings = asyncHandler(async (req, res) => {
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 1 } = req.query;
         const result = await meetingService.getUserMeetings(req.params.userId, page, limit);
 
         res.status(200).json({

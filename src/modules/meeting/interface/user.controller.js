@@ -26,7 +26,7 @@ class UserController {
 
     // GET /users - Get all users (with pagination)
     getAllUsers = asyncHandler(async (req, res) => {
-        const { page = 1, limit = 10 } = req.query;
+        const { page = 1, limit = 1 } = req.query;
         const result = await userService.getAllUsers(page, limit);
 
         res.status(200).json({

@@ -118,11 +118,12 @@ class UpdateMeetingDTO {
 class MeetingResponseDTO {
     constructor(meeting) {
         this.id = meeting.id || meeting._id; // Handle both id and _id
+        this._id = meeting._id || meeting.id; // Ensure _id is also present
 
         // Handle userId if it's populated (object) or raw (string/ObjectId)
-        this.userId = (meeting.userId && meeting.userId._id)
-            ? meeting.userId._id
-            : meeting.userId;
+        if (meeting.userId) {
+            this.userId = meeting.userId._id || meeting.userId;
+        }
 
         this.title = meeting.title;
         this.description = meeting.description;
@@ -138,6 +139,7 @@ class MeetingResponseDTO {
         if (meeting.user) {
             this.user = {
                 id: meeting.user.id || meeting.user._id,
+                _id: meeting.user.id || meeting.user._id, // Add _id here too
                 name: meeting.user.name,
                 email: meeting.user.email
             };

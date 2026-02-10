@@ -10,12 +10,17 @@ class MeetingService {
      * Conflict condition: existing.start < new.end AND existing.end > new.start
      */
     async checkTimeConflict(userId, startTime, endTime, excludeMeetingId = null) {
+        // Ensure inputs are Date objects
+        const start = new Date(startTime);
+        const end = new Date(endTime);
+
         const query = {
             userId,
             status: { $ne: 'cancelled' },
             deletedAt: null,
-            startTime: { $lt: new Date(endTime) },
-            endTime: { $gt: new Date(startTime) }
+            // Conflict condition: (Existing Start < New End) AND (Existing End > New Start)
+            startTime: { $lt: end },
+            endTime: { $gt: start }
         };
 
         // Exclude the current meeting when updating
@@ -108,7 +113,7 @@ class MeetingService {
         }
     }
 
-    async listMeetings(filters = {}, page = 1, limit = 10) {
+    async listMeetings(filters = {}, page = 1, limit = 1) {
         try {
             const { userId, startDate, endDate, status } = filters;
             const skip = (page - 1) * limit;
@@ -254,7 +259,7 @@ class MeetingService {
         }
     }
 
-    async getUserMeetings(userId, page = 1, limit = 10) {
+    async getUserMeetings(userId, page = 1, limit = 1) {
         try {
             // Verify user exists
             const user = await User.findById(userId).notDeleted();
