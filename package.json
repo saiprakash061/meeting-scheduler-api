@@ -2,7 +2,7 @@
 	"name": "meeting-scheduler-api",
 	"version": "1.0.0",
 	"description": "Backend service for calendar booking with conflict detection",
-	"main": "src/index.js",
+	"main": "index.js",
 	"type": "commonjs",
 	"scripts": {
 		"start": "node src/index.js",
