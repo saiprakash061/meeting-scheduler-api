@@ -1,20 +1,18 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const config = require('./config/app.config');
-const { connectDB } = require('./config/database.config');
-const { userRoutes, meetingRoutes, authRoutes } = require('./modules/meeting/index');
+const userRoutes = require('./modules/user/routes/user.routes');
+const meetingRoutes = require('./modules/meeting/routes/meeting.routes');
+const authRoutes = require('./modules/user/routes/auth.routes');
 const errorHandler = require('./middlewares/error.middleware');
 const { rateLimiter, authRateLimiter } = require('./middlewares/rateLimit.middleware');
-const logger = require('./utils/logger.util');
 
 const app = express();
 
 app.use(helmet());
 app.use(cors());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -62,34 +60,4 @@ app.use('*', (req, res) => {
 
 app.use(errorHandler);
 
-const startServer = async () => {
-    try {
-
-        await connectDB();
-
-        app.listen(config.port, () => {
-            logger.info(`✓ Server is running on port ${config.port}`);
-            logger.info(`✓ Environment: ${config.nodeEnv}`);
-            logger.info(`✓ Access the API at: http://localhost:${config.port}`);
-        });
-    } catch (error) {
-        logger.error(`✗ Failed to start server: ${error.message}`);
-        process.exit(1);
-    }
-};
-
-process.on('unhandledRejection', (err) => {
-    logger.error(`Unhandled Rejection: ${err.message}`);
-    process.exit(1);
-});
-
-process.on('uncaughtException', (err) => {
-    logger.error(`Uncaught Exception: ${err.message}`);
-    process.exit(1);
-});
-
-startServer();
-
 module.exports = app;
-
-

@@ -1,4 +1,4 @@
-const authService = require('../modules/meeting/service/auth.service');
+const authService = require('../modules/user/service/auth.service');
 const { AppError } = require('../utils/error.util');
 
 const authenticate = async (req, res, next) => {
@@ -10,7 +10,7 @@ const authenticate = async (req, res, next) => {
             throw new AppError('No token provided. Access denied', 401);
         }
 
-        const token = authHeader.substring(7); 
+        const token = authHeader.substring(7);
 
         const user = await authService.verifyToken(token);
 
