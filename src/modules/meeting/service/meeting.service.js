@@ -193,7 +193,7 @@ class MeetingService {
                     meeting.userId,
                     newStartTime,
                     newEndTime,
-                    meetingId
+                    meetingId 
                 );
             }
 

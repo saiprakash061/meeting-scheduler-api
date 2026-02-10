@@ -10,7 +10,7 @@ const authenticate = async (req, res, next) => {
             throw new AppError('No token provided. Access denied', 401);
         }
 
-        const token = authHeader.substring(7);
+        const token = authHeader.substring(7); 
 
         const user = await authService.verifyToken(token);
 
