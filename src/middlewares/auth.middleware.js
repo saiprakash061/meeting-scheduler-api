@@ -1,4 +1,4 @@
-const authService = require('../modules/user/service/auth.service');
+const authService = require('../modules/meeting/service/auth.service');
 const { AppError } = require('../utils/error.util');
 
 const authenticate = async (req, res, next) => {

@@ -1,5 +1,5 @@
 const Meeting = require('../model/meeting.model');
-const User = require('../../user/model/user.model');
+const User = require('../model/user.model');
 const { CreateMeetingDTO, UpdateMeetingDTO, MeetingResponseDTO } = require('../dto/meeting.dto');
 const { AppError } = require('../../../utils/error.util');
 const logger = require('../../../utils/logger.util');
