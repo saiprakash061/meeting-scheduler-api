@@ -40,4 +40,4 @@ The API checks if a user's new meeting overlaps with an existing one using this 
 If there's a conflict, it returns a 400 error so the user can't double-book.
 
 ---
-Created by [Your Name]
+Created by [ch.sai prakash]
