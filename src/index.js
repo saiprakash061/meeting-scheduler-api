@@ -34,6 +34,20 @@ app.get('/health', (req, res) => {
     });
 });
 
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: 'Meeting Scheduler API',
+        version: '1.0.0',
+        endpoints: {
+            health: '/health',
+            users: '/api/users',
+            meetings: '/api/meetings',
+            auth: '/api/auth'
+        }
+    });
+});
+
 app.use(errorHandler);
 
 const startServer = async () => {
